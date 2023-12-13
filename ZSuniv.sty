@@ -1,0 +1,137 @@
+\ProvidesPackage{ZSuniv}[2021/05/13.latexstuodio.net]
+
+%------------------------------- 大题 ----------------------------------%
+\ctexset{section = {name = {,. \hspace*{-5mm}},number = \arabic{section},format = {\vspace{4mm}\zihao{4}\raggedright}}}
+\ctexset{subsection = {name = {\hspace{5mm},\hspace*{-1mm}},number = (\arabic{subsection}),format = {\zihao{4}\raggedright}}}
+\RequirePackage{titlesec}
+\titlespacing*{\section}{0pt}{9pt}{4pt}
+%------------------------------- 大题 ----------------------------------%
+
+
+%------------------------------ 选择题 ----------------------------------%
+\usepackage{tasks}%选择题宏包，tasks环境
+\settasks{counter-format={tsk[A].},
+ 	          label-offset={0.4em},
+                 label-align=left,
+                 column-sep={2pt},
+                 item-indent={1pt},before-skip={-0.7em},after-skip={-0.7em}
+}
+%------------------------------ 选择题 ----------------------------------%
+%\setcounter{enumi}{12}
+
+\def\tiankongdaan#1{\makebox[3em][c]{#1}}
+\newcommand{\blank}[1]{\underline{\tiankongdaan{\hspace{4cm}}}}
+\DeclareOption{ans}{\renewcommand{\blank}[1]{\,\underline{#1}\,
+}}
+\ProcessOptions
+
+%%%----------数学类---------%%%
+%=======================================================================
+\RequirePackage{amsmath,amssymb}%
+\def\dif{\mathop{}\!\mathrm{d}}
+\DeclareMathOperator{\rank}{rank}
+\RequirePackage{bm}
+\RequirePackage{pifont}
+\RequirePackage{extarrows} %长等号
+\RequirePackage{scalerel}%缩放公式大小
+
+
+%%---------------------------------- 定理\引理\定义样式设置 --------------------
+\RequirePackage{amsthm}
+\renewcommand{\proofname}{\heiti{证明}}
+%\newenvironment{proof}{\par\noindent{\heiti{证明.\,}}}{\hspace*{\fill}{$\Box$}\par}
+%\newenvironment{proof}{\par\noindent{\heiti{证明.\,}}\small}{\hfill$\Box$\quad\par}
+\newenvironment{Proof}{\par\noindent{\heiti{证明.\,}}\small}{\hfill$\Box$\quad\par}
+\newenvironment{Solution}{\par\noindent{\heiti{解.\,}}}{\hspace*{\fill}{$\Diamond$}\par}
+%-----------------------------------------------------------------------------
+%\RequirePackage{amsthm}
+\RequirePackage{thmtools}
+\declaretheoremstyle[
+spaceabove=0pt, spacebelow=0pt,
+headfont=\normalfont\bfseries,
+notefont=\mdseries, notebraces={(}{)},
+bodyfont=\normalfont,
+postheadspace=0.5em,
+headindent=0em,
+headpunct={:},
+qed=$\blacktriangleleft$,
+numbered=no
+]{solstyle}
+\declaretheorem[style=solstyle,shaded={rulecolor=red,
+rulewidth=0.5pt, bgcolor={rgb}{1,1,1}},name=解]{solution}
+%--------------------------------------------------------------------------
+
+
+%%--------------------------设置数学字体为新罗马字体-------------------------
+\RequirePackage[T1]{fontenc}
+\RequirePackage{mathptmx}
+\newfontfamily\TNRBI{Times New Roman Bold Italic} %新罗马字体英文的粗斜体
+\newcommand{\bfit}[1]{\text{\TNRBI #1}} %amsmath 
+%%-------------------------------------------------------------------------
+
+
+%%--------------- 页面设置 ---------------%%
+\RequirePackage{geometry,calc}
+\geometry{a3paper,twocolumn,landscape,hmargin={1.5cm,2cm},vmargin={2cm,2cm},footskip=0.3cm,headsep=1cm}
+
+\def\lastfox@putlabel{%
+	\immediate\write\@auxout{%
+		\string\newlabel{LastFox}{{\@arabic\c@fox}{}{}{}{}}}}
+\AtEndDocument{\lastfox@putlabel}
+
+\newcounter{foo}
+\newcounter{fox}
+\addtocounter{foo}{1}
+%--------------------------------------------------------------------
+\RequirePackage{tikz}
+\RequirePackage{lastpage}
+\newcommand{\defen}[2][1cm]{\hspace*{\fill}\raisebox{-1.1ex}{\tikz\draw[line width=1pt,dash pattern=on 1pt off 2.5pt on 1pt off 2.5pt] (0pt,0pt)--(#1 ,0pt)node[right=-1mm]{(#2~分)};}\newline}
+\RequirePackage{calc}
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\columnseprule}{0.4pt}
+\setlength{\columnsep}{1.8cm}
+
+\fancyfoot[CE,CO]{\hspace*{17.75cm}第\refstepcounter{fox}\thefoo\refstepcounter{foo}页 \quad 共~\ref{LastFox}~页\hspace*{9cm}
+\textsl{考试结束后请将本试题与答题纸（卡）一并交回}}
+\renewcommand{\headrulewidth}{0pt}
+%-------------------------------------------------------------------
+
+
+\RequirePackage{graphicx} 
+\RequirePackage{wrapfig}
+\RequirePackage{eso-pic}
+\newcommand{\watermark}[3]{\AddToShipoutPictureBG{
+\parbox[b][\paperheight]{\paperwidth}{
+\vfill
+\centering
+\tikz[remember picture, overlay]
+\node [rotate = #1, scale = #2] at (current page.center)
+{\textcolor{gray!80!cyan!30}{#3}};
+\vfill}}}
+
+\RequirePackage{array}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+
+%==================================================================
+\RequirePackage{color,xcolor}%-颜色-%
+%==================================================================
+
+\def\univ#1{\begin{center}{\zihao{-1}\CJKfontspec{华文中宋粗} #1}\end{center}}
+\def\biaoti#1{\begin{center}{
+    \begin{tikzpicture}[overlay]
+    \node at (8.75,1.7){\zihao{1}\CJKfontspec{华文中宋粗} 中\quad~ 山\quad~ 大\quad~ 学};
+    \end{tikzpicture}
+    \zihao{2}\CJKfontspec{华文中宋粗} #1}\end{center}}
+\def\DMKM{
+\begin{center}
+{\zihao{-4}\heiti
+科目代码\underline{\qquad\bfseries 651\qquad}\hspace{2cm}科目名称\underline{\qquad 数学分析\qquad}
+}
+\end{center}}
+\def\tishi#1{\begin{center}{\zihao{4}\heiti #1}\end{center}}
+\endinput
